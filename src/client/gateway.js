@@ -15,12 +15,11 @@ export function createTaskGateway(client, timeoutMs = 5000) {
       return await promisify(client[method].bind(client))(request, {
         deadline: Date.now() + timeoutMs,
       });
-
     } catch (error) {
       const code = codes.get(error.code);
 
       if (code) throw new TaskError(code, error.details || error.message);
-      
+
       throw error;
     }
   };
