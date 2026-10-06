@@ -2,18 +2,19 @@
   "name": "grpc",
   "version": "1.0.0",
   "description": "A gRPC service in NodeJS",
-  "main": "index.js",
+  "main": "src/client/index.js",
   "scripts": {
-    "start-dev:server": "npm run build && nodemon --exec babel-node src/server/server.js",
-    "start-dev:client": "npm run build && nodemon --exec babel-node src/client/client.js",
-    "start": "npm run build && node ./src/client/index.js",
+    "start": "node src/client/index.js",
+    "start:server": "node src/server/index.js",
+    "start-dev:server": "node --watch src/server/index.js",
+    "start-dev:client": "node --watch src/client/index.js",
+    "start:dev": "npm run start-dev:server",
+    "test": "node --test",
+    "check": "npm run lint:check && npm run format:check && npm test",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint:check": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "prebuild": "rm -rf dist",
-    "build": "npm run prebuild && babel ./src --out-dir ./dist",
-    "start:dev": "npm run build && nodemon --exec babel-node src/server.js"
+    "lint:fix": "eslint --fix ."
   },
   "repository": {
     "type": "git",
@@ -31,21 +32,21 @@
   },
   "homepage": "https://github.com/sheygs13/node-gRPC#readme",
   "dependencies": {
-    "@grpc/grpc-js": "^1.5.10",
-    "@grpc/proto-loader": "^0.6.9",
-    "cors": "^2.8.5",
-    "express": "^4.17.3"
+    "@grpc/grpc-js": "^1.14.5",
+    "@grpc/proto-loader": "^0.8.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.8",
-    "@babel/node": "^7.16.8",
-    "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/runtime": "^7.17.8",
-    "eslint": "^8.12.0",
-    "eslint-config-prettier": "^8.5.0",
-    "nodemon": "^2.0.15",
-    "prettier": "^2.6.1"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.9"
+  },
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
   }
 }
