@@ -26,8 +26,6 @@ For automatic restarts, use `npm run start-dev:server` and `npm run start-dev:cl
 | PUT    | `/api/v1/tasks/:id` | `{ "title": "Title", "body": "Text" }` | 200, updated task          |
 | DELETE | `/api/v1/tasks/:id` | —                                      | 204                        |
 
-Title and body must be nonempty strings. IDs are generated UUID strings. Invalid input returns 400, missing tasks return 404, an unavailable gRPC service returns 503, and RPC timeouts return 504. `/api/v1/news` remains an alias for the task routes; `imageUrl` is no longer required because it is absent from the protobuf schema.
-
 ```sh
 curl -X POST http://localhost:3000/api/v1/tasks \
   -H 'Content-Type: application/json' \
@@ -41,10 +39,15 @@ Original reference: [Build a gRPC service in NodeJS](https://daily.dev/blog/buil
 ## Code structure
 
 - `src/tasks/`: task validation, domain errors, business operations, and the in-memory repository. These modules have no HTTP or gRPC dependencies; the service receives its repository and ID generator.
+  
 - `src/server/handlers.js`: translates gRPC requests and domain errors. `server.js` creates and binds the server; `index.js` wires the repository and service and manages process lifecycle.
+  
 - `src/client/gateway.js`: adapts the gRPC client to task operations, with deadlines and error translation.
+  
 - `src/client/routes.js`: handles HTTP requests and responses. `error-handler.js` maps errors to HTTP status codes; `app.js` configures middleware and routes.
+  
 - `src/client/index.js`: wires the gateway and HTTP app and manages process lifecycle.
+  
 - `src/proto/`: shared protobuf contract and loader.
 
 Factories receive their dependencies so storage, business rules, and transport adapters can be tested or replaced independently.
